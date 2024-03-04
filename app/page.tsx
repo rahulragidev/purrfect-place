@@ -21,7 +21,7 @@ export default async function Index() {
     type: "Dog",
     breed: "Golden Retriever",
     description: "A friendly and energetic dog looking for a loving home.",
-    photos: ["/path/to/buddy.jpg"], // Replace with a valid image path or URL
+    photos: ["/images/buddy.jpg"],
   };
 
   return (
