@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 
-// Define the structure of a pet object
 interface Pet {
   id: number;
   name: string;
@@ -9,37 +8,45 @@ interface Pet {
   type: string;
   breed: string;
   description: string;
-  photos: string[]; // Assuming photos is an array of string URLs
+  photos: string[];
 }
 
-// Props for the PetCard component
 interface PetCardProps {
   pet: Pet;
 }
 
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200">
-      <div className="h-48 w-full relative mb-4">
-        {pet.photos && pet.photos.length > 0 && (
+    <article className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition duration-500 ease-in-out transform hover:scale-105">
+      <div className="relative h-48 w-full">
+        {pet.photos && pet.photos.length > 0 ? (
           <Image
             src={pet.photos[0]}
             alt={`Photo of ${pet.name}`}
             layout="fill"
             objectFit="cover"
-            className="rounded-t-lg"
+            className="transition duration-500 ease-in-out transform hover:scale-105"
           />
+        ) : (
+          <div className="flex items-center justify-center h-full bg-gray-100">
+            <span className="text-sm text-gray-500">No image available</span>
+          </div>
         )}
       </div>
-      <div className="px-6 py-4">
-        <h2 className="font-bold text-xl mb-2 text-gray-800">{pet.name}</h2>
-        <p className="text-gray-600 text-sm mb-2">
-          {pet.type} - {pet.breed}
+      <div className="p-4">
+        <h2 className="text-lg font-semibold text-gray-900 leading-tight">
+          {pet.name}
+        </h2>
+        <p className="text-sm text-gray-500 mt-1">
+          {pet.type} <span className="font-semibold text-gray-600">•</span>{" "}
+          {pet.breed} <span className="font-semibold text-gray-600">•</span>{" "}
+          Age: {pet.age} years
         </p>
-        <p className="text-gray-600 text-sm">Age: {pet.age} years</p>
-        <p className="text-gray-600 text-sm mt-4">{pet.description}</p>
+        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+          {pet.description}
+        </p>
       </div>
-    </div>
+    </article>
   );
 };
 
