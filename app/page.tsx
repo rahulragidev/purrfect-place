@@ -1,4 +1,4 @@
-import PetCard from "@/components/PetCard";
+import PetCard from "@/components/PetCard.client";
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 
@@ -21,7 +21,7 @@ export default async function Index() {
     type: "Dog",
     breed: "Golden Retriever",
     description: "A friendly and energetic dog looking for a loving home.",
-    photos: ["/images/buddy.jpg"],
+    photos: ["/images/buddy.jpg", "/images/buddy2.jpeg"],
   };
 
   return (
