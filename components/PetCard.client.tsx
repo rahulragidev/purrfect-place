@@ -18,17 +18,14 @@ interface PetCardProps {
 }
 
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
-  // State to keep track of the current image index
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Function to go to the next image
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === pet.photos.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  // Function to go to the previous image
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? pet.photos.length - 1 : prevIndex - 1
@@ -54,14 +51,12 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
               onClick={prevImage}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10"
             >
-              {/* Use your preferred icons or text for navigation */}
               &#60;
             </button>
             <button
               onClick={nextImage}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10"
             >
-              {/* Use your preferred icons or text for navigation */}
               &#62;
             </button>
           </>
