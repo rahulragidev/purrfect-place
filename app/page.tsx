@@ -2,6 +2,7 @@ import PetCard from "@/components/PetCard.client";
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/client";
+import Link from "next/link";
 
 export async function getPets() {
   const { data, error } = await supabase.from("pets").select("*");
@@ -37,7 +38,9 @@ export default async function Index() {
       <div className="m-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-slate-100">
           {pets.map((pet) => (
-            <PetCard key={pet.id} pet={pet} />
+            <Link href={`/${pet.pet_id}`}>
+              <PetCard key={pet.id} pet={pet} />
+            </Link>
           ))}
         </div>
       </div>
