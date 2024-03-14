@@ -45,14 +45,14 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
       </div>
 
       <div className="px-4 py-4 h-3/5 overflow-hidden">
-        <h2 className="text-lg font-semibold text-gray-900 truncate">
+        <h2 className="text-lg font-black text-gray-100 truncate">
           {pet.name}
         </h2>
-        <p className="mt-1 text-sm text-gray-500 truncate">
+        <p className="mt-1 text-md text-gray-300 truncate">
           {pet.type} • {pet.breed}
         </p>
-        <p className="text-sm text-gray-500">Age: {pet.age} years</p>
-        <p className="mt-2 text-sm text-gray-600 overflow-hidden text-ellipsis leading-tight">
+        <p className="text-md text-gray-300">Age: {pet.age} years</p>
+        <p className="mt-2 text-md text-gray-300 overflow-hidden text-ellipsis leading-tight">
           {pet.description}
         </p>
       </div>
