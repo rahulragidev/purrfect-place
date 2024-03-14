@@ -49,7 +49,7 @@ const IndexPage = async () => {
         </div>
       </section>
 
-      <section className="featured-pets py-12">
+      <section className="featured-pets px-4 py-12">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-6">Featured Pets</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
