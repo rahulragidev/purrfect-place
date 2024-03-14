@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { petId: string } }) {
         <div className="mt-8 text-white space-y-4">
           <div className="flex space-x-0 justify-between">
             <h1 className="text-4xl font-bold">{petDetails[0].name}</h1>
-            <Link href="/">
+            <Link href="/login">
               <button className="rounded font-extrabold bg-green-600 p-4">
                 {`Make ${petDetails[0].name} Your Family`}
                 <span className="">&#x1f43e;</span>
