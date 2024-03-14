@@ -14,6 +14,21 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
+  if (code) {
+  const supabase = createClient();
+  try {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) {
+      console.error('Error exchanging code for session:', error.message);
+      return NextResponse.redirect(`${origin}/error?message=${encodeURIComponent(error.message)}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return NextResponse.redirect(`${origin}/error`);
+  }
+}
+
+
   // URL to redirect to after sign up process completes
   return NextResponse.redirect(`${origin}/protected`);
 }
