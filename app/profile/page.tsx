@@ -29,7 +29,8 @@ export default async function Profile() {
     <div className="min-h-screen text-black py-10">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-center text-gray-100 mb-10">
-          How would you like to proceed?
+          How would you like to proceed? <br />
+          {data.user?.email}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <Link href="/pets">
