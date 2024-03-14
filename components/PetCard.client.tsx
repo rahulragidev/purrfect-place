@@ -20,7 +20,7 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
 
   return (
     <div
-      className={`relative  mx-auto overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl ${cardSize}`}
+      className={`relative  mx-auto overflow-hidden rounded-lg border border-gray-700 bg-black shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-400 ${cardSize}`}
     >
       <div className="relative overflow-hidden rounded-t-lg h-1/2">
         {pet.photos.length > 0 ? (
