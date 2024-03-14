@@ -1,3 +1,4 @@
+// PetCard.js
 import React, { memo } from "react";
 import Image from "next/image";
 import { Pet } from "@/types/pet";
@@ -6,58 +7,50 @@ interface PetCardProps {
   pet: Pet;
 }
 
-const PetCard: React.FC<PetCardProps> = ({ pet }) => {
-  const statusColor =
-    pet.status.toLowerCase() === "available"
-      ? "text-green-500 bg-green-100"
-      : "text-gray-800 bg-gray-300";
-  const statusBorderColor =
-    pet.status.toLowerCase() === "available"
-      ? "border-green-500"
-      : "border-gray-400";
+const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
+  const statusClasses = {
+    available: "text-green-500 bg-green-100 border-green-500",
+    unavailable: "text-gray-800 bg-gray-300 border-gray-400",
+  };
 
-  const cardSize = "w-96 h-96";
+  const { available, unavailable } = statusClasses;
+  const statusStyle =
+    pet.status.toLowerCase() === "available" ? available : unavailable;
 
   return (
-    <div
-      className={`relative  mx-auto overflow-hidden rounded-lg border border-gray-700 bg-black shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-400 ${cardSize}`}
-    >
-      <div className="relative overflow-hidden rounded-t-lg h-1/2">
+    <div className="flex flex-col mx-auto rounded-lg border bg-black text-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative h-64 w-full">
         {pet.photos.length > 0 ? (
           <Image
             src={pet.photos[0]}
             alt={`Photo of ${pet.name}`}
             layout="fill"
             objectFit="cover"
-            priority
             className="rounded-t-lg"
           />
         ) : (
-          <div className="flex items-center justify-center bg-gray-200 rounded-t-lg h-full">
+          <div className="flex items-center justify-center h-full bg-gray-200">
             <span>No Image Available</span>
           </div>
         )}
         <span
-          className={`absolute top-0 left-0 ml-4 mt-4 rounded-full px-3 py-1 text-xs font-semibold ${statusColor} border ${statusBorderColor}`}
+          className={`absolute top-2 left-2 rounded-full px-3 py-1 text-xs font-semibold border ${statusStyle}`}
         >
           {pet.status.toUpperCase()}
         </span>
       </div>
-
-      <div className="px-4 py-4 h-3/5 overflow-hidden">
-        <h2 className="text-lg font-black text-gray-100 truncate">
-          {pet.name}
-        </h2>
-        <p className="mt-1 text-md text-gray-300 truncate">
+      <div className="flex flex-col flex-1 p-4">
+        <h2 className="text-lg font-bold truncate line-clamp-1">{pet.name}</h2>
+        <p className="mt-1 text-gray-300 truncate line-clamp-1">
           {pet.type} • {pet.breed}
         </p>
-        <p className="text-md text-gray-300">Age: {pet.age} years</p>
-        <p className="mt-2 text-md text-gray-300 overflow-hidden text-ellipsis leading-tight">
+        <p className="text-gray-300 line-clamp-1">Age: {pet.age} years</p>
+        <p className="mt-2 text-sm text-gray-300 overflow-hidden text-ellipsis leading-tight line-clamp-1">
           {pet.description}
         </p>
       </div>
     </div>
   );
-};
+});
 
-export default memo(PetCard);
+export default PetCard;

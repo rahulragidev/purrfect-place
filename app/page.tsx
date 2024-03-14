@@ -52,7 +52,7 @@ const IndexPage = async () => {
       <section className="featured-pets py-12">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-6">Featured Pets</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {pets.map((pet) => (
               <Link href={`/pets/${pet.pet_id}`} key={pet.id}>
                 <PetCard pet={pet} />
