@@ -1,56 +1,56 @@
+// Enhanced with TailwindCSS for styling
 import Image from "next/image";
 import Link from "next/link";
 import { fetchPetDetails } from "../pets.loader";
+import PetImageCarousel from "@/components/PetImageCarousel.client";
 
-export default async function Page({ params }: { params: { petId: string } }) {
+interface PageParams {
+  params: {
+    petId: string;
+  };
+}
+
+export default async function Page({ params }: PageParams) {
   const petDetails = await fetchPetDetails(params.petId);
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
-          <Image
-            src={petDetails[0].photos[0]}
-            alt="Banner Image"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-xl"
-          />
-        </div>
-
-        <div className="mt-8 text-white space-y-4">
-          <div className="flex space-x-0 justify-between">
-            <h1 className="text-4xl font-bold">{petDetails[0].name}</h1>
-            <Link href="/login">
-              <button className="rounded font-extrabold bg-green-600 p-4">
-                {`Make ${petDetails[0].name} Your Family`}
-                <span className="">&#x1f43e;</span>
-              </button>
+    <div className="min-h-screen py-10">
+      <div className="max-w-4xl mx-auto shadow-lg rounded-lg overflow-hidden">
+        <PetImageCarousel photos={petDetails[0].photos} />
+        <div className="px-4 py-5 sm:p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl font-semibold">{petDetails[0].name}</h1>
+            <Link
+              href="/login"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              Adopt {petDetails[0].name} <span className="ml-2">&#x1f43e;</span>
             </Link>
           </div>
-          <p className="text-xl">
-            <span className="font-semibold">Age:</span> {petDetails[0].age}
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold">Type:</span> {petDetails[0].type}
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold">Breed:</span> {petDetails[0].breed}
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold">Status:</span>{" "}
-            {petDetails[0].status}
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold">Added on:</span>{" "}
-            {petDetails[0].created_at}
-          </p>
-
-          <div className="mt-6">
-            <h2 className="text-3xl font-bold mb-4">Description</h2>
-            <p className="text-lg leading-relaxed">
-              {petDetails[0].description}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+            <p className="col-span-1">
+              <span className="font-semibold">Age:</span> {petDetails[0].age}{" "}
+              years
             </p>
+            <p className="col-span-1">
+              <span className="font-semibold">Type:</span> {petDetails[0].type}
+            </p>
+            <p className="col-span-1">
+              <span className="font-semibold">Breed:</span>{" "}
+              {petDetails[0].breed}
+            </p>
+            <p className="col-span-1">
+              <span className="font-semibold">Status:</span>{" "}
+              {petDetails[0].status}
+            </p>
+            <p className="col-span-2">
+              <span className="font-semibold">Added on:</span>{" "}
+              {new Date(petDetails[0].created_at).toLocaleDateString()}
+            </p>
+          </div>
+          <div className="mt-6">
+            <h2 className="text-2xl font-bold mb-2">Description</h2>
+            <p className="text-md">{petDetails[0].description}</p>
           </div>
         </div>
       </div>
