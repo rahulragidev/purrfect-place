@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { fetchPetDetails } from "../pets.loader";
 
 export default async function Page({ params }: { params: { petId: string } }) {
   const petDetails = await fetchPetDetails(params.petId);
@@ -56,20 +57,3 @@ export default async function Page({ params }: { params: { petId: string } }) {
     </div>
   );
 }
-
-const fetchPetDetails = async (pet_id: string) => {
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/pets?select=*&pet_id=eq.${pet_id}`;
-  const headers = new Headers({
-    "Content-Type": "application/json",
-    apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-  });
-
-  const response = await fetch(url, { headers });
-  if (!response.ok) {
-    throw new Error("Failed to fetch pet details");
-  }
-
-  const data = await response.json();
-  return data;
-};
