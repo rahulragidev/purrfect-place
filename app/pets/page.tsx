@@ -3,18 +3,18 @@ import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/client";
 import Link from "next/link";
 
-export async function getPets() {
-  const { data, error } = await supabase.from("pets").select("*");
-
-  if (error) {
-    console.error("Error fetching pets:", error.message);
-    throw new Error("Failed to fetch pets");
-  }
-  console.log(data);
-  return data;
-}
-
 export default async function Index() {
+  async function getPets() {
+    const { data, error } = await supabase.from("pets").select("*");
+
+    if (error) {
+      console.error("Error fetching pets:", error.message);
+      throw new Error("Failed to fetch pets");
+    }
+    console.log(data);
+    return data;
+  }
+
   const canInitSupabaseClient = () => {
     try {
       createClient();

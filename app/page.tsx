@@ -2,18 +2,17 @@ import Link from "next/link";
 import PetCard from "@/components/PetCard.client";
 import { supabase } from "@/utils/supabase/client";
 
-export async function getPets() {
-  const { data, error } = await supabase.from("pets").select("*");
-
-  if (error) {
-    console.error("Error fetching pets:", error.message);
-    throw new Error("Failed to fetch pets");
-  }
-  console.log(data);
-  return data;
-}
-
 const IndexPage = async () => {
+  async function getPets() {
+    const { data, error } = await supabase.from("pets").select("*");
+
+    if (error) {
+      console.error("Error fetching pets:", error.message);
+      throw new Error("Failed to fetch pets");
+    }
+    console.log(data);
+    return data;
+  }
   const pets = await getPets();
 
   return (
