@@ -1,20 +1,8 @@
-import PetCard from "@/components/PetCard.client";
-import { createClient } from "@/utils/supabase/server";
-import { supabase } from "@/utils/supabase/client";
 import Link from "next/link";
 import { getPets } from "./pets.loader";
+import PetCard from "@/components/PetCard";
 
 export default async function Index() {
-  const canInitSupabaseClient = () => {
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
   const pets = await getPets();
   return (
     <article className="flex-1 w-full flex flex-col gap-6 items-center mt-6">

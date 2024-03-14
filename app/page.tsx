@@ -1,6 +1,6 @@
 import Link from "next/link";
-import PetCard from "@/components/PetCard.client";
 import { supabase } from "@/utils/supabase/client";
+import PetCard from "@/components/PetCard";
 
 const IndexPage = async () => {
   async function getPets() {
