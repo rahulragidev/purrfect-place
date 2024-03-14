@@ -37,7 +37,7 @@ const IndexPage = async () => {
       </section>
 
       <section className="how-it-works py-12">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-center mb-6">How It Works</h2>
           <ul className="space-y-4">
             <li>1. Browse available pets / Provide pets for adoption</li>
