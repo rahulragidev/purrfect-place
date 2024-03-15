@@ -14,8 +14,8 @@ const OptionCard: React.FC<OptionCardProps> = ({
 }) => (
   <div className="flex flex-col items-center shadow-lg rounded-3xl p-6 cursor-pointer hover:scale-105 transform transition duration-200 ease-out w-full h-96 border border-gray-700 hover:shadow-gray-400">
     <div className="text-3xl mb-4">{icon}</div>
-    <h3 className="font-bold text-xl mb-2 text-gray-100">{title}</h3>
-    <p className="text-gray-300 text-base text-center">{description}</p>
+    <h3 className="font-bold text-xl mb-2">{title}</h3>
+    <p className="text-base text-center">{description}</p>
   </div>
 );
 
@@ -26,9 +26,9 @@ export default async function Profile() {
   console.log(data.user?.email);
 
   return (
-    <div className="min-h-screen text-black py-10">
+    <div className="min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center text-gray-100 mb-10">
+        <h2 className="text-2xl font-bold text-center mb-10">
           How would you like to proceed? <br />
           {data.user?.email}
         </h2>
