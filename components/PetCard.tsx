@@ -18,7 +18,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
     pet.status.toLowerCase() === "available" ? available : unavailable;
 
   return (
-    <div className="flex flex-col mx-auto rounded-lg border bg-black text-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+    <div className="flex flex-col mx-auto rounded-lg border bg-background  shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-64 w-full">
         {pet.photos.length > 0 ? (
           <Image
@@ -28,7 +28,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
             className="object-cover rounded-t-lg"
           />
         ) : (
-          <div className="flex items-center justify-center h-full bg-gray-200">
+          <div className="flex items-center justify-center h-full">
             <span>No Image Available</span>
           </div>
         )}
@@ -40,11 +40,11 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
       </div>
       <div className="flex flex-col flex-1 p-4">
         <h2 className="text-lg font-bold truncate line-clamp-1">{pet.name}</h2>
-        <p className="mt-1 text-gray-300 truncate line-clamp-1">
+        <p className="mt-1  truncate line-clamp-1">
           {pet.type} • {pet.breed}
         </p>
-        <p className="text-gray-300 line-clamp-1">Age: {pet.age} years</p>
-        <p className="mt-2 text-sm text-gray-300 overflow-hidden text-ellipsis leading-tight line-clamp-1">
+        <p className=" line-clamp-1">Age: {pet.age} years</p>
+        <p className="mt-2 text-sm  overflow-hidden text-ellipsis leading-tight line-clamp-1">
           {pet.description}
         </p>
       </div>

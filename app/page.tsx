@@ -17,7 +17,7 @@ const IndexPage = async () => {
 
   return (
     <div>
-      <header className="hero text-white p-12 text-center">
+      <header className="hero p-12 text-center">
         <h1 className="text-4xl font-bold">Find Your Perfect Pet Companion</h1>
         <p className="mt-3 max-w-2xl mx-auto">
           Join our community dedicated to connecting pets in need with loving
