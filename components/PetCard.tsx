@@ -26,6 +26,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
             alt={`Photo of ${pet.name}`}
             fill
             className="object-cover rounded-t-lg"
+            priority
           />
         ) : (
           <div className="flex items-center justify-center h-full">

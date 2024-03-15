@@ -1,15 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface PetImageCarouselProps {
-  photos: string[]; // Assuming photos is an array of strings (URLs)
+  photos: string[];
 }
 
 const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Reset currentIndex to 0 when photos array changes
     setCurrentIndex(0);
   }, [photos]);
 
@@ -26,14 +26,20 @@ const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   return (
     <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
       {photos.map((photo, index) => (
-        <img
+        <div
           key={index}
-          src={photo}
-          alt={`Image ${index + 1}`}
-          className={`w-full h-full object-cover rounded-xl ${
-            index === currentIndex ? "block" : "hidden"
+          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+            index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
-        />
+        >
+          <Image
+            src={photo}
+            alt={`Image ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+            priority
+          />
+        </div>
       ))}
       <button
         onClick={handlePrev}
