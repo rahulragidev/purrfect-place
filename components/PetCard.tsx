@@ -24,9 +24,8 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
           <Image
             src={pet.photos[0]}
             alt={`Photo of ${pet.name}`}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-t-lg"
+            fill
+            className="object-cover rounded-t-lg"
           />
         ) : (
           <div className="flex items-center justify-center h-full bg-gray-200">
