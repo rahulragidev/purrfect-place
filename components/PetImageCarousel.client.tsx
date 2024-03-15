@@ -1,14 +1,17 @@
-// PetImageCarousel.client.jsx
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// Define a type for the component props
 interface PetImageCarouselProps {
   photos: string[]; // Assuming photos is an array of strings (URLs)
 }
 
 const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // Reset currentIndex to 0 when photos array changes
+    setCurrentIndex(0);
+  }, [photos]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
