@@ -9,10 +9,6 @@ interface PetImageCarouselProps {
 const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [photos]);
-
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
   };
@@ -23,6 +19,7 @@ const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
     );
   };
 
+  useEffect(() => {}, [photos, currentIndex]);
   return (
     <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
       {photos.map((photo, index) => (
