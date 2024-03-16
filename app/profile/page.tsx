@@ -33,7 +33,7 @@ export default async function Profile() {
           {data.user?.email}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <Link href="/pets">
+          <Link href="/pets/addPet">
             <OptionCard
               title="Provide a Pet"
               description="Have a pet that needs a new home? Start here."

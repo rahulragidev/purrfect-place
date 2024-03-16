@@ -10,19 +10,19 @@ const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % photos?.length);
   };
 
   const handlePrev = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + photos.length) % photos.length
+      (prevIndex) => (prevIndex - 1 + photos.length) % photos?.length
     );
   };
 
   useEffect(() => {}, [photos]);
   return (
     <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
-      {photos.map((photo, index) => (
+      {photos?.map((photo, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${

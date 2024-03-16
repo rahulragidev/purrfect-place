@@ -20,7 +20,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
   return (
     <div className="flex flex-col mx-auto rounded-lg border bg-background  shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-64 w-full">
-        {pet.photos.length > 0 ? (
+        {pet.photos?.length > 0 ? (
           <Image
             src={pet.photos[0]}
             alt={`Photo of ${pet.name}`}
