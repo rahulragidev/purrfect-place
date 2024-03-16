@@ -1,4 +1,3 @@
-// Index.js
 import React from "react";
 import Link from "next/link";
 import { getPets } from "./pets.loader";

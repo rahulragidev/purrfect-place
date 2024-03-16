@@ -1,4 +1,3 @@
-// Enhanced with TailwindCSS for styling
 import Image from "next/image";
 import Link from "next/link";
 import { fetchPetDetails } from "../pets.loader";
