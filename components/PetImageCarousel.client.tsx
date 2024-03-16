@@ -19,7 +19,7 @@ const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
     );
   };
 
-  useEffect(() => {}, [photos, currentIndex]);
+  useEffect(() => {}, [photos]);
   return (
     <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
       {photos.map((photo, index) => (
