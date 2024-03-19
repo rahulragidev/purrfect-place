@@ -15,11 +15,13 @@ export default function Login({
     const origin = headers().get("origin");
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const phone = formData.get("phone") as string;
     const supabase = createClient();
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      phone,
       options: {
         emailRedirectTo: `${origin}/auth/callback`,
       },
@@ -35,6 +37,14 @@ export default function Login({
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+        <label className="text-md" htmlFor="name">
+          Name
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          name="name"
+          required
+        />
         <label className="text-md" htmlFor="email">
           Email
         </label>
@@ -44,8 +54,17 @@ export default function Login({
           placeholder="you@example.com"
           required
         />
+        <label className="text-md" htmlFor="phone">
+          Phone
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          name="phone"
+          placeholder="+91 XXXX-XXX-XXX"
+          required
+        />
         <label className="text-md" htmlFor="password">
-          Password
+          Set Password
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6"
