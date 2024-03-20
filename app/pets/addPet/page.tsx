@@ -2,7 +2,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { SubmitButton } from "./submit-button";
+import { SubmitButton } from "./pet-submit-button";
 
 export default function addPet({
   searchParams,
@@ -39,7 +39,7 @@ export default function addPet({
     ]);
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/addPet?message=Could not add pet");
     } else {
       return redirect(`/pets`);
     }
@@ -174,7 +174,7 @@ export default function addPet({
         <SubmitButton
           formAction={addPet}
           className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing In..."
+          pendingText="Adding Pet..."
         >
           Add Pet
         </SubmitButton>
