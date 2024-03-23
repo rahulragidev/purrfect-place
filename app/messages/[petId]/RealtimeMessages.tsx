@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import MessageList from "./MessageList";
 import { supabase } from "@/utils/supabase/client";
+import { fetchUserDetails } from "../user.loader";
 
+// Define the Message interface for TypeScript
 interface Message {
   id: number;
   sender_id: string;
@@ -15,7 +17,7 @@ interface Message {
 
 const RealtimeMessages: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessageContent, setNewMessageContent] = useState(""); // New state for handling message input
+  const [newMessageContent, setNewMessageContent] = useState("");
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -38,54 +40,56 @@ const RealtimeMessages: React.FC = () => {
       .channel("messages")
       .on("postgres_changes", { event: "*", schema: "public" }, (payload) => {
         console.log(payload);
-        // Update messages state to reflect new changes
-        fetchMessages(); // Or handle the new message directly to optimize
+        // Optimally, you would handle the payload directly to update the state without refetching.
+        fetchMessages();
       })
       .subscribe();
 
     return () => {
       subscription
         .unsubscribe()
-        .then((response) => {
-          console.log("Subscription response:", response);
-        })
-        .catch((error) => {
-          console.error("Error unsubscribing:", error);
-        });
+        .then(() => console.log("Unsubscribed from the messages channel."))
+        .catch((error) => console.error("Error unsubscribing:", error));
     };
   }, []);
-
+  console.log(fetchUserDetails);
   const sendMessage = async () => {
-    // Prevent sending empty messages
-    //if (!newMessageContent.trim()) return;
-
+    if (!newMessageContent.trim()) return;
+    alert(newMessageContent);
     const { data, error } = await supabase
       .from("messages")
       .insert([{ content: newMessageContent }])
       .single();
+
+    console.log(data);
 
     if (error) {
       console.error("Error sending message:", error);
       return;
     }
 
-    // Optionally clear the input after sending
     setNewMessageContent("");
   };
 
   return (
-    <>
+    <div className="p-4">
       <MessageList messages={messages} />
-      <div className="text-black">
+      <div className="flex mt-4">
         <input
           type="text"
           value={newMessageContent}
           onChange={(e) => setNewMessageContent(e.target.value)}
           placeholder="Type a message..."
+          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <button onClick={sendMessage}>Send</button>
+        <button
+          onClick={sendMessage}
+          className="ml-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        >
+          Send
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -2,9 +2,12 @@ import React from "react";
 
 interface Message {
   id: number;
-  content: string;
   sender_id: string;
   receiver_id: string;
+  pet_id: string;
+  content: string;
+  timestamp: string;
+  is_read: boolean;
 }
 
 interface Props {
@@ -12,6 +15,7 @@ interface Props {
 }
 
 const MessageList: React.FC<Props> = ({ messages }) => {
+  console.log("These are messages : " + messages);
   return (
     <div className="space-y-2">
       {messages.map((message) => (
