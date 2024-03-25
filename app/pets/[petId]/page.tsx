@@ -2,12 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchPetDetails } from "../pets.loader";
 import PetImageCarousel from "@/components/PetImageCarousel.client";
-
-interface PageParams {
-  params: {
-    petId: string;
-  };
-}
+import { PageParams } from "@/types/pageParams";
 
 export default async function Page({ params }: PageParams) {
   const petDetails = await fetchPetDetails(params.petId);

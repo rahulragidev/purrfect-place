@@ -1,103 +1,67 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import MessageList from "./MessageList";
+import { createClient } from "@/utils/supabase/server";
+import { SubmitButton } from "@/components/submit-button";
 import { supabase } from "@/utils/supabase/client";
-import { fetchUserDetails } from "../user.loader";
+import MessageList from "./MessageList";
+import { Message } from "@/types/messages";
 
-// Define the Message interface for TypeScript
-interface Message {
-  id: number;
-  sender_id: string;
-  receiver_id: string;
-  pet_id: string;
-  content: string;
-  timestamp: string;
-  is_read: boolean;
-}
-
-const RealtimeMessages: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessageContent, setNewMessageContent] = useState("");
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from("messages")
-        .select("*")
-        .order("message_id", { ascending: true });
-
-      if (error) {
-        console.error("Error fetching messages:", error);
-        return;
-      }
-
-      setMessages(data || []);
-    };
-
-    fetchMessages();
-
-    const subscription = supabase
-      .channel("messages")
-      .on("postgres_changes", { event: "*", schema: "public" }, (payload) => {
-        console.log(payload);
-        fetchMessages();
-      })
-      .subscribe();
-
-    return () => {
-      subscription
-        .unsubscribe()
-        .then(() => console.log("Unsubscribed from the messages channel."))
-        .catch((error) => console.error("Error unsubscribing:", error));
-    };
-  }, []);
-
-  const sendMessage = async () => {
-    if (!newMessageContent.trim()) return;
-    alert(newMessageContent);
-    const { data, error } = await supabase
-      .from("messages")
-      .insert([
-        {
-          sender_id: "5ed3b1e9-65f1-4510-808f-57888be503cd",
-          receiver_id: "5ed3b1e9-65f1-4510-808f-57888be503cd",
-          pet_id: "7c4f1b10-a21e-4fc5-bd6c-805799444b7a",
-          content: newMessageContent,
-        },
-      ])
-      .single();
-
-    console.log(data);
-    console.log(error);
+export default function RealtimeMessages({
+  searchParams,
+}: {
+  searchParams: {
+    petId: string;
+    provider_id: string;
+    user_id: string;
+  };
+}) {
+  const sendMessage = async (formData: FormData) => {
+    "use server";
+    let message = formData.get("message") as string;
+    const sender_id = searchParams.user_id;
+    const provider_user_id = searchParams.provider_id;
+    const petId = searchParams.petId;
+    console.log("This is a Message : " + message);
+    console.log("This is a Sender : " + sender_id);
+    console.log("This is a Provider : " + provider_user_id);
+    console.log("This is a Pet : " + petId);
+    const { error } = await supabase.from("messages").insert([
+      {
+        sender_id: sender_id,
+        receiver_id: provider_user_id,
+        pet_id: searchParams.petId,
+        content: message,
+      },
+    ]);
 
     if (error) {
       console.error("Error sending message:", error);
       return;
     }
-
-    setNewMessageContent("");
+    message = "";
   };
 
   return (
-    <div className="p-4">
-      <MessageList messages={messages} />
-      <div className="flex mt-4">
+    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+      <MessageList searchParams={searchParams} />
+      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
         <input
-          type="text"
-          value={newMessageContent}
-          onChange={(e) => setNewMessageContent(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-black"
+          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          name="message"
+          placeholder="Type here ..."
+          required
         />
-        <button
-          onClick={sendMessage}
-          className="ml-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        <SubmitButton
+          formAction={sendMessage}
+          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
+          pendingText="Sending Text"
         >
-          Send
-        </button>
-      </div>
+          Send Message
+        </SubmitButton>
+        {searchParams?.provider_id && (
+          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+            {searchParams.provider_id}
+          </p>
+        )}
+      </form>
     </div>
   );
-};
-
-export default RealtimeMessages;
+}

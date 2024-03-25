@@ -22,9 +22,6 @@
   /* Apply no selection and no user drag to the whole document */
   * {
     @apply border-foreground/20;
-    user-select: none;
-    /* Prevent text selection */
-    -webkit-user-drag: none;
     /* Prevent image drag */
   }
 
