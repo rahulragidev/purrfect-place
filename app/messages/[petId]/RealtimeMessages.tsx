@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import { SubmitButton } from "@/components/submit-button";
 import { supabase } from "@/utils/supabase/client";
 import MessageList from "./MessageList";
-import { Message } from "@/types/messages";
 
 export default function RealtimeMessages({
   searchParams,
