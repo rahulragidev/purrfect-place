@@ -24,7 +24,7 @@ const RealtimeMessages: React.FC = () => {
       const { data, error } = await supabase
         .from("messages")
         .select("*")
-        .order("id", { ascending: true });
+        .order("message_id", { ascending: true });
 
       if (error) {
         console.error("Error fetching messages:", error);
@@ -40,7 +40,6 @@ const RealtimeMessages: React.FC = () => {
       .channel("messages")
       .on("postgres_changes", { event: "*", schema: "public" }, (payload) => {
         console.log(payload);
-        // Optimally, you would handle the payload directly to update the state without refetching.
         fetchMessages();
       })
       .subscribe();
@@ -52,16 +51,24 @@ const RealtimeMessages: React.FC = () => {
         .catch((error) => console.error("Error unsubscribing:", error));
     };
   }, []);
-  console.log(fetchUserDetails);
+
   const sendMessage = async () => {
     if (!newMessageContent.trim()) return;
     alert(newMessageContent);
     const { data, error } = await supabase
       .from("messages")
-      .insert([{ content: newMessageContent }])
+      .insert([
+        {
+          sender_id: "5ed3b1e9-65f1-4510-808f-57888be503cd",
+          receiver_id: "5ed3b1e9-65f1-4510-808f-57888be503cd",
+          pet_id: "7c4f1b10-a21e-4fc5-bd6c-805799444b7a",
+          content: newMessageContent,
+        },
+      ])
       .single();
 
     console.log(data);
+    console.log(error);
 
     if (error) {
       console.error("Error sending message:", error);
@@ -80,7 +87,7 @@ const RealtimeMessages: React.FC = () => {
           value={newMessageContent}
           onChange={(e) => setNewMessageContent(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-black"
         />
         <button
           onClick={sendMessage}
