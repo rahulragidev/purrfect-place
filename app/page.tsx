@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { supabase } from "@/utils/supabase/client";
 import PetCard from "@/components/PetCard";
+import React from "react";
 
 const IndexPage = async () => {
   async function getPets() {
+    "use server";
     const { data, error } = await supabase.from("pets").select("*");
 
     if (error) {
@@ -41,9 +43,12 @@ const IndexPage = async () => {
           <h2 className="text-3xl font-bold text-center mb-6">How It Works</h2>
           <ul className="space-y-4">
             <li>1. Browse available pets / Provide pets for adoption</li>
-            <li>2. Learn about each pet's story, needs, and personality.</li>
             <li>
-              3. Apply to adopt and connect with the pet's current caretaker.
+              2. Learn about each pet&apos;s story, needs, and personality.
+            </li>
+            <li>
+              3. Apply to adopt and connect with the pet&apos;s current
+              caretaker.
             </li>
           </ul>
         </div>

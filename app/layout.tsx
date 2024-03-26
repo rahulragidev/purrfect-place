@@ -1,14 +1,15 @@
+import React from "react";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import AuthButton from "@/components/AuthButton";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+// const defaultUrl = process.env.VERCEL_URL
+//   ? `https://${process.env.VERCEL_URL}`
+//   : "http://pawmingle.org";
 
 export const metadata = {
-  metadataBase: "https://pawmingle.com", // Your site's base URL
+  metadataBase: "https://pawmingle.com",
   title: "Paw Mingle - Pet Adoption Made Easy",
   description:
     "Join Paw Mingle, a loving community dedicated to making pet adoption seamless. Find your forever friend today!",

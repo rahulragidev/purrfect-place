@@ -1,11 +1,8 @@
 import { ReactNode } from "react";
+import React from "react";
 
 interface PetDetailsLayoutProps {
   children: ReactNode;
-}
-
-interface NavbarProps {
-  isSupabaseConnected: boolean;
 }
 
 const PetDetailsLayout = ({ children }: PetDetailsLayoutProps) => {

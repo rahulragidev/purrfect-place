@@ -1,11 +1,11 @@
-import { Message } from "@/types/messages";
 import RealtimeMessages from "./RealtimeMessages";
 import { PageParams } from "@/types/pageParams";
 import { createClient } from "@/utils/supabase/server";
+import React from "react";
 
 async function MessagesPage({ params }: PageParams) {
   const userId = async (): Promise<string> => {
-    ("use server");
+    "use server";
     const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error) {

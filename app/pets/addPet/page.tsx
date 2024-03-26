@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "@/components/submit-button";
+import React from "react";
 
 export default function addPet({
   searchParams,
@@ -16,8 +15,7 @@ export default function addPet({
     const age = parseInt(formData.get("age") as string);
     const breed = formData.get("breed") as string;
     const description = formData.get("description") as string;
-    // Simplified example for photos and additional_info
-    //const photos = (formData.get("photos") as string)?.split(","); // Assuming comma-separated URLs
+    //const photos = (formData.get("photos") as string)?.split(",");
     const status = formData.get("status") as string;
     // Example additional_info, adjust according to actual form inputs
     const additional_info = JSON.stringify({

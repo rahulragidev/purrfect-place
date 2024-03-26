@@ -1,6 +1,7 @@
 import { supabase } from "@/utils/supabase/client";
 
 export async function getPets() {
+  "use server";
   const { data, error } = await supabase.from("pets").select("*");
 
   if (error) {
@@ -12,6 +13,7 @@ export async function getPets() {
 }
 
 export const fetchPetDetails = async (pet_id: string) => {
+  "use server";
   const { data, error } = await supabase
     .from("pets")
     .select("*")

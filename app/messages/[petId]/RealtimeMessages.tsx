@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import React from "react";
 import { SubmitButton } from "@/components/submit-button";
 import { supabase } from "@/utils/supabase/client";
 import MessageList from "./MessageList";
@@ -55,11 +55,11 @@ export default function RealtimeMessages({
         >
           Send Message
         </SubmitButton>
-        {searchParams?.provider_id && (
+        {/* {searchParams?.provider_id && (
           <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
             {searchParams.provider_id}
           </p>
-        )}
+        )} */}
       </form>
     </div>
   );

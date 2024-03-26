@@ -1,4 +1,4 @@
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
 import { fetchPetDetails } from "../pets.loader";
 import PetImageCarousel from "@/components/PetImageCarousel.client";
@@ -10,7 +10,10 @@ export default async function Page({ params }: PageParams) {
   return (
     <div className="min-h-screen py-10">
       <div className="max-w-4xl mx-auto shadow-lg rounded-lg overflow-hidden">
-        <PetImageCarousel photos={petDetails[0].photos} />
+        <PetImageCarousel
+          key={petDetails[0].pet_id}
+          photos={petDetails[0].photos}
+        />
         <div className="px-4 py-5 sm:p-6">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-semibold">{petDetails[0].name}</h1>

@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import React from "react";
 
 interface OptionCardProps {
   title: string;
@@ -23,7 +24,9 @@ export default async function Profile() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
-  console.log(data.user?.email);
+  if (error) {
+    console.log(error);
+  }
 
   return (
     <div className="min-h-screen py-10">

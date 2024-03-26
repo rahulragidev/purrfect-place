@@ -11,8 +11,8 @@ const Index = async () => {
       <section className="container px-4 sm:px-0 mx-auto">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {pets.map((pet) => (
-            <Link href={`/pets/${pet.pet_id}`} key={pet.id}>
-              <PetCard pet={pet} key={pet.id} />
+            <Link href={`/pets/${pet.pet_id}`} key={pet.pet_id}>
+              <PetCard pet={pet} key={pet.pet_id} />
             </Link>
           ))}
         </div>

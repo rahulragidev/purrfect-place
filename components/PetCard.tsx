@@ -52,5 +52,5 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
     </div>
   );
 });
-
+PetCard.displayName = "PetCard";
 export default PetCard;
