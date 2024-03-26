@@ -1,6 +1,7 @@
 import { Message } from "@/types/messages";
 import { createClient } from "@/utils/supabase/server";
 import React from "react";
+import MessageDisplay from "./MessageDisplay";
 
 export default async function MessageList({
   searchParams,
@@ -30,22 +31,6 @@ export default async function MessageList({
 
   const pastMessages = await messages();
   return (
-    <div className="space-y-2">
-      {pastMessages?.map((message) => (
-        <div
-          key={message.id}
-          className={`border rounded-lg p-2 ${
-            message.sender_id === searchParams.user_id
-              ? "ml-auto bg-blue-900 w-fit"
-              : "mr-auto bg-gray-900 w-fit"
-          }`}
-        >
-          <div>
-            <p>{message.content}</p>
-            <p>{message.timestamp}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <MessageDisplay searchParams={searchParams} pastMessages={pastMessages} />
   );
 }
