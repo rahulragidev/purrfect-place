@@ -60,10 +60,10 @@ const MessageDisplay = ({
     };
   }, [messages]);
 
-  const formatTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
-  };
+  // const formatTimestamp = (timestamp: string) => {
+  //   const date = new Date(timestamp);
+  //   return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
+  // };
 
   return (
     <div className="space-y-2">
