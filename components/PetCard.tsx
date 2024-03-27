@@ -2,6 +2,7 @@
 import React, { memo } from "react";
 import Image from "next/image";
 import { Pet } from "@/types/pet";
+import PropTypes from "prop-types";
 
 interface PetCardProps {
   pet: Pet;
@@ -22,6 +23,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
       <div className="relative h-64 w-full">
         {pet.photos?.length > 0 ? (
           <Image
+            key={pet.pet_id}
             src={pet.photos[0]}
             alt={`Photo of ${pet.name}`}
             fill
@@ -52,5 +54,28 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
     </div>
   );
 });
+
+PetCard.propTypes = {
+  pet: PropTypes.shape({
+    pet_id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    breed: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired, // Allows number or undefined
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.oneOf([null]),
+    ]).isRequired,
+    status: PropTypes.oneOf(["available", "adopted"]).isRequired,
+    provider_user_id: PropTypes.string.isRequired,
+    adopter_user_id: PropTypes.string.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    created_at: PropTypes.instanceOf(Date).isRequired,
+    updated_at: PropTypes.instanceOf(Date).isRequired,
+    photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  }).isRequired,
+};
+
 PetCard.displayName = "PetCard";
 export default PetCard;

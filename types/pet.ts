@@ -5,7 +5,7 @@ export interface Pet {
   breed: string | null;
   age: number | null; // integer
   description: string | null;
-  status: 'available' | 'adopted'
+  status: string;
   provider_user_id: string; // UUID
   adopter_user_id: string | null; // UUID, can be null
   latitude: number | null; // numeric(9,6)
