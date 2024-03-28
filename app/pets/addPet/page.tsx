@@ -15,14 +15,41 @@ export default function addPet({
     const age = parseInt(formData.get("age") as string);
     const breed = formData.get("breed") as string;
     const description = formData.get("description") as string;
-    //const photos = (formData.get("photos") as string)?.split(",");
+    const photosFiles = formData.getAll("photos") as File[];
     const status = formData.get("status") as string;
-    // Example additional_info, adjust according to actual form inputs
     const additional_info = JSON.stringify({
-      specialNeeds: formData.get("specialNeeds"),
+      specialNeeds: formData.get("additional_info"),
     });
 
     const supabase = createClient();
+    const { data: user, error: userError } = await supabase.auth.getUser();
+    const provider_user_id = user.user?.id;
+    if (userError) {
+      console.log(userError);
+    }
+    const photoUrls: string[] = [];
+    for (const file of photosFiles) {
+      const { data, error: uploadError } = await supabase.storage
+        .from("pets")
+        .upload(`${name}-${new Date().getTime()}-${file.name}`, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (uploadError) {
+        console.log(uploadError);
+        return redirect("/error");
+      }
+
+      const publicUrlObject = supabase.storage
+        .from("pets")
+        .getPublicUrl(data.path);
+      const publicUrl = publicUrlObject.data?.publicUrl;
+      if (publicUrl) {
+        photoUrls.push(publicUrl);
+      }
+    }
+    console.log(photoUrls);
     const { error } = await supabase.from("pets").insert([
       {
         name,
@@ -30,14 +57,16 @@ export default function addPet({
         age,
         breed,
         description,
-        //photos,
+        provider_user_id: provider_user_id,
+        photos: photoUrls,
         status,
         additional_info,
       },
     ]);
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      console.log(error);
+      return redirect("/error");
     } else {
       return redirect(`/pets`);
     }
@@ -135,6 +164,7 @@ export default function addPet({
             name="photos"
             type="file"
             multiple
+            accept="image/*"
           />
         </div>
 

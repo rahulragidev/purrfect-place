@@ -24,10 +24,8 @@ const MessageDisplay = ({
         .from("messages")
         .select("*")
         .eq("pet_id", searchParams.petId)
-        .or(
-          `sender_id.eq.${searchParams.user_id},receiver_id.eq.${searchParams.provider_id}`
-        );
-
+        .eq("receiver_id", searchParams.provider_id)
+        .eq("sender_id", searchParams.user_id);
       if (error) {
         console.error("Error fetching messages:", error);
       } else {
