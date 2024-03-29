@@ -50,7 +50,7 @@ export default async function Profile() {
               icon={<svg>...</svg>}
             />
           </Link>
-          <Link href="/pets/myPets">
+          <Link href="/myPets">
             <OptionCard
               title="My Pets"
               description="list of your pets"
