@@ -41,12 +41,12 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
         </span>
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold text-gray-50 mb-2">{pet.name}</h2>
-        <p className="text-gray-100 mb-1">
+        <h2 className="text-xl font-bold mb-2">{pet.name}</h2>
+        <p className="mb-1">
           {pet.type} • {pet.breed}
         </p>
-        <p className="text-gray-100 mb-2">Age: {pet.age} years</p>
-        <p className="text-gray-200 line-clamp-2">{pet.description}</p>
+        <p className="mb-2">Age: {pet.age} years</p>
+        <p className="line-clamp-2">{pet.description}</p>
       </div>
     </div>
   );
