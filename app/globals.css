@@ -22,7 +22,10 @@
   /* Apply no selection and no user drag to the whole document */
   * {
     @apply border-foreground/20;
-    /* Prevent image drag */
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 
   /* Disable right-click on images */
@@ -32,13 +35,13 @@
 }
 
 .animate-in {
-  animation: animateIn 0.3s ease 0.15s both;
+  animation: animateIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
 }
 
 @keyframes animateIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
 
   to {

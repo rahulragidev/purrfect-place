@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { SubmitButton } from "@/components/submit-button";
 import React from "react";
 
-export default function addPet({
+export default function AddPet({
   searchParams,
 }: {
   searchParams: { message: string };
@@ -17,17 +17,21 @@ export default function addPet({
     const description = formData.get("description") as string;
     const photosFiles = formData.getAll("photos") as File[];
     const status = formData.get("status") as string;
-    const additional_info = JSON.stringify({
+    const additionalInfo = JSON.stringify({
       specialNeeds: formData.get("additional_info"),
     });
 
     const supabase = createClient();
     const { data: user, error: userError } = await supabase.auth.getUser();
-    const provider_user_id = user.user?.id;
+    const providerUserId = user.user?.id;
+
     if (userError) {
       console.log(userError);
+      return redirect("/error");
     }
+
     const photoUrls: string[] = [];
+
     for (const file of photosFiles) {
       const { data, error: uploadError } = await supabase.storage
         .from("pets")
@@ -41,177 +45,171 @@ export default function addPet({
         return redirect("/error");
       }
 
-      const publicUrlObject = supabase.storage
+      const { data: publicUrlData } = supabase.storage
         .from("pets")
         .getPublicUrl(data.path);
-      const publicUrl = publicUrlObject.data?.publicUrl;
+      const publicUrl = publicUrlData?.publicUrl;
+
       if (publicUrl) {
         photoUrls.push(publicUrl);
       }
     }
-    console.log(photoUrls);
-    const { error } = await supabase.from("pets").insert([
+
+    const { error: insertError } = await supabase.from("pets").insert([
       {
         name,
         type,
         age,
         breed,
         description,
-        provider_user_id: provider_user_id,
+        provider_user_id: providerUserId,
         photos: photoUrls,
         status,
-        additional_info,
+        additional_info: additionalInfo,
       },
     ]);
 
-    if (error) {
-      console.log(error);
+    if (insertError) {
+      console.log(insertError);
       return redirect("/error");
-    } else {
-      return redirect(`/pets`);
     }
+
+    return redirect("/pets");
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            name="name"
-            type="text"
-            required
-          />
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold">
+            Add a Pet
+          </h2>
+          <p className="mt-2 text-center text-sm">
+            Fill in the details below to add a pet for adoption.
+          </p>
         </div>
+        <form className="mt-8 space-y-6" action={addPet}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div className="">
+              <label htmlFor="name" className="sr-only">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Name"
+              />
+            </div>
+            <div>
+              <label htmlFor="type" className="sr-only">
+                Type
+              </label>
+              <input
+                id="type"
+                name="type"
+                type="text"
+                autoComplete="type"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Type"
+              />
+            </div>
+            <div>
+              <label htmlFor="age" className="sr-only">
+                Age
+              </label>
+              <input
+                id="age"
+                name="age"
+                type="number"
+                autoComplete="age"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Age"
+              />
+            </div>
+            <div>
+              <label htmlFor="breed" className="sr-only">
+                Breed
+              </label>
+              <input
+                id="breed"
+                name="breed"
+                type="text"
+                autoComplete="breed"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Breed"
+              />
+            </div>
+            <div>
+              <label htmlFor="description" className="sr-only">
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows={3}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Description"
+              ></textarea>
+            </div>
+            <div>
+              <label htmlFor="photos" className="sr-only">
+                Photos
+              </label>
+              <input
+                id="photos"
+                name="photos"
+                type="file"
+                multiple
+                accept="image/*"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+              />
+            </div>
+            <div>
+              <label htmlFor="status" className="sr-only">
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+              >
+                <option value="">Select Status</option>
+                <option value="available">Available</option>
+                <option value="adopted">Adopted</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="additional_info" className="sr-only">
+                Additional Info
+              </label>
+              <input
+                id="additional_info"
+                name="additional_info"
+                type="text"
+                autoComplete="additional-info"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border placeholder-gray-100 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Additional Info"
+              />
+            </div>
+          </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="type"
-          >
-            Type
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="type"
-            name="type"
-            type="text"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="age"
-          >
-            Age
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="age"
-            name="age"
-            type="number"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="breed"
-          >
-            Breed
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="breed"
-            name="breed"
-            type="text"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <textarea
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="description"
-            name="description"
-          ></textarea>
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="photos"
-          >
-            Photos
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="photos"
-            name="photos"
-            type="file"
-            multiple
-            accept="image/*"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="status"
-          >
-            Status
-          </label>
-          <select
-            className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="status"
-            name="status"
-          >
-            <option value="available">Available</option>
-            <option value="adopted">Adopted</option>
-          </select>
-        </div>
-
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="additional_info"
-          >
-            Additional Info
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="additional_info"
-            name="additional_info"
-            type="text"
-          />
-        </div>
-        <SubmitButton
-          formAction={addPet}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing In..."
-        >
-          Add Pet
-        </SubmitButton>
+          <div>
+            <SubmitButton className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              Add Pet
+            </SubmitButton>
+          </div>
+        </form>
         {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+          <p className="mt-2 text-center text-sm text-red-600">
             {searchParams.message}
           </p>
         )}
-      </form>
+      </div>
     </div>
   );
 }
