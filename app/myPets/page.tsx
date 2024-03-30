@@ -2,7 +2,6 @@ import React from "react";
 import PetCard from "@/components/PetCard";
 import { Pet } from "@/types/pet";
 import { getMyPets } from "../pets/pets.loader";
-import { supabase } from "@/utils/supabase/client";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function PetsPage() {

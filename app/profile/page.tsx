@@ -5,7 +5,7 @@ import React from "react";
 interface OptionCardProps {
   title: string;
   description: string;
-  icon: JSX.Element; // React Icon
+  icon: JSX.Element;
 }
 
 const OptionCard: React.FC<OptionCardProps> = ({
