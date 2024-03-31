@@ -1,39 +1,13 @@
+import { userId } from "@/app/auth/loader.auth";
 import RealtimeMessages from "./RealtimeMessages";
 import { PageParams } from "@/types/pageParams";
 import { createClient } from "@/utils/supabase/server";
 import React from "react";
+import { fetchPetProvider } from "@/app/pets/pets.loader";
 
 async function MessagesPage({ params }: PageParams) {
-  const userId = async (): Promise<string> => {
-    "use server";
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      throw new Error("Error fetching user: " + error.message);
-    }
-    if (!data.user || !data.user.id) {
-      throw new Error("User ID is undefined");
-    }
-    return data.user.id;
-  };
-
-  const fetchPetProvider = async () => {
-    "use server";
-    const supabase = createClient();
-    const { data: provider_user_id, error } = await supabase
-      .from("pets")
-      .select("provider_user_id")
-      .eq("pet_id", params.petId)
-      .single();
-
-    if (error) {
-      console.error("Error fetching pet provider:", error.message);
-      return;
-    }
-    return provider_user_id.provider_user_id;
-  };
   const petId = params.petId;
-  const provider_id = await fetchPetProvider();
+  const provider_id = await fetchPetProvider(petId);
   const user_id = await userId();
 
   return (

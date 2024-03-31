@@ -40,3 +40,18 @@ export async function getMyPets(userId: string) {
   console.log(data);
   return data;
 }
+
+export const fetchPetProvider = async (petId: string) => {
+  "use server";
+  const { data: provider_user_id, error } = await supabase
+    .from("pets")
+    .select("provider_user_id")
+    .eq("pet_id", petId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching pet provider:", error.message);
+    return;
+  }
+  return provider_user_id.provider_user_id;
+};

@@ -2,22 +2,9 @@ import React from "react";
 import PetCard from "@/components/PetCard";
 import { Pet } from "@/types/pet";
 import { getMyPets } from "../pets/pets.loader";
-import { createClient } from "@/utils/supabase/server";
+import { userId } from "../auth/loader.auth";
 
 export default async function PetsPage() {
-  const userId = async () => {
-    "use server";
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      throw new Error("Error fetching user: " + error.message);
-    }
-    if (!data.user || !data.user.id) {
-      throw new Error("User ID is undefined");
-    }
-    return data.user.id;
-  };
-
   const stringUserId = await userId();
   const pets = await getMyPets(stringUserId);
 
