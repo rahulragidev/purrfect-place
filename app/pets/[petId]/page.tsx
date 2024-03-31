@@ -1,12 +1,14 @@
 import React from "react";
-import Link from "next/link";
 import { fetchPetDetails } from "../pets.loader";
 import PetImageCarousel from "@/components/PetImageCarousel.client";
 import { PageParams } from "@/types/pageParams";
+import { userId } from "@/app/auth/loader.auth";
+import { AdoptButton } from "@/components/AdoptButton";
 
 export default async function Page({ params }: PageParams) {
   const petDetails = await fetchPetDetails(params.petId);
   const pet = petDetails[0];
+  const adopterId = await userId();
 
   return (
     <div className="min-h-screen py-10">
@@ -15,13 +17,7 @@ export default async function Page({ params }: PageParams) {
         <div className="px-4 py-5 sm:p-6">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-semibold">{pet.name}</h1>
-            <Link
-              href={`/messages/${params.petId}`}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Adopt {pet.name}
-              <span className="ml-2">&#x1f43e;</span>
-            </Link>
+            <AdoptButton pet={pet} adopterId={adopterId} />
           </div>
           <div className="grid grid-cols-2 gap-x-8 gap-y-4">
             <p className="col-span-1">

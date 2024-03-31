@@ -8,14 +8,9 @@ const MessageDisplay = ({
   searchParams,
   pastMessages,
 }: {
-  searchParams: {
-    petId: string;
-    provider_id: string;
-    user_id: string;
-  };
+  searchParams: { chatId: string; user_id: string };
   pastMessages: Message[];
 }) => {
-  // Initialize messages state with pastMessages
   const [messages, setMessages] = useState<Message[]>(pastMessages);
 
   useEffect(() => {
@@ -23,13 +18,13 @@ const MessageDisplay = ({
       const { data, error } = await supabase
         .from("messages")
         .select("*")
-        .eq("pet_id", searchParams.petId)
-        .eq("receiver_id", searchParams.provider_id)
-        .eq("sender_id", searchParams.user_id);
+        .eq("chat_id", searchParams.chatId)
+        .order("created_at", { ascending: true });
+
       if (error) {
         console.error("Error fetching messages:", error);
       } else {
-        setMessages(data);
+        setMessages(data || []);
       }
     };
 
@@ -38,13 +33,13 @@ const MessageDisplay = ({
       .on(
         "postgres_changes",
         {
-          event: "UPDATE",
+          event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: `pet_id=eq.${searchParams.petId} AND (sender_id=eq.${searchParams.user_id} AND receiver_id=eq.${searchParams.provider_id})`,
+          filter: `chat_id=eq.${searchParams.chatId}`,
         },
         (payload) => {
-          console.log("Received message update:", payload);
+          console.log("Received new message:", payload);
           fetchMessages();
         }
       )
@@ -53,15 +48,9 @@ const MessageDisplay = ({
     fetchMessages();
 
     return () => {
-      // Cleanup subscription on component unmount
       subscription.unsubscribe();
     };
-  }, [messages]);
-
-  // const formatTimestamp = (timestamp: string) => {
-  //   const date = new Date(timestamp);
-  //   return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
-  // };
+  }, [searchParams.chatId]);
 
   return (
     <div className="space-y-2">

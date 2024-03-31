@@ -32,8 +32,10 @@ const IndexPage = async () => {
           <h2 className="text-3xl font-bold mb-6">How It Works</h2>
           <ol className="space-y-4 list-decimal list-inside">
             <li>Browse available pets or provide pets for adoption</li>
-            <li>Learn about each pet's story, needs, and personality</li>
-            <li>Apply to adopt and connect with the pet's current caretaker</li>
+            <li>Learn about each pet&apos;s story, needs, and personality</li>
+            <li>
+              Apply to adopt and connect with the pet&apos;s current caretaker
+            </li>
           </ol>
         </div>
       </section>

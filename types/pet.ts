@@ -1,6 +1,6 @@
 export interface Pet {
   pet_id: string; // UUID, automatically generated
-  name: string | null;
+  name: string;
   type: string | null;
   breed: string | null;
   age: number | null; // integer
