@@ -25,7 +25,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
     <div className="flex">
       <input
         type="text"
-        className="flex-1 border rounded-l-lg px-4 py-2"
+        className="flex-1 border rounded-l-lg px-4 py-2 text-black"
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
