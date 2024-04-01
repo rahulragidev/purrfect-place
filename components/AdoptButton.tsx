@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase/client";
@@ -9,18 +10,25 @@ import PropTypes from "prop-types";
 
 interface AdoptButtonProps {
   pet: Pet;
-  adopterId: string;
+  adopterId: string | null;
 }
 
 export const AdoptButton: React.FC<AdoptButtonProps> = ({ pet, adopterId }) => {
   const router = useRouter();
 
   const adoptPet = async () => {
-    try {
-      if (!pet.provider_user_id || !pet.pet_id) {
-        throw new Error("Missing required pet properties");
-      }
+    if (!adopterId) {
+      router.push("/login");
+      return;
+    }
 
+    if (!pet.provider_user_id || !pet.pet_id) {
+      console.error("Missing required pet properties");
+      router.push("/error");
+      return;
+    }
+
+    try {
       const { data: chatData, error: chatError } = await supabase
         .from("chats")
         .insert({
@@ -35,12 +43,10 @@ export const AdoptButton: React.FC<AdoptButtonProps> = ({ pet, adopterId }) => {
         throw chatError;
       }
 
-      console.log("Chat data:", chatData);
-
       if (chatData && "id" in chatData) {
         const chatId = chatData.id;
-
         const messageContent = `Hey! I want to adopt ${pet.name}!`;
+
         const { error: messageError } = await supabase.from("messages").insert({
           sender_id: adopterId,
           receiver_id: pet.provider_user_id,
@@ -68,31 +74,12 @@ export const AdoptButton: React.FC<AdoptButtonProps> = ({ pet, adopterId }) => {
   };
 
   return (
-    <button onClick={() => handleAdoptClick().catch(console.error)}>
-      Adopt {pet.name} <span className="ml-2">&#x1f43e;</span>
+    <button
+      onClick={() => handleAdoptClick().catch(console.error)}
+      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center"
+    >
+      <span className="mr-2">Adopt {pet.name}</span>
+      <span className="text-xl">&#x1f43e;</span>
     </button>
   );
-};
-
-AdoptButton.propTypes = {
-  pet: PropTypes.shape({
-    pet_id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    breed: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.oneOf([null]),
-    ]).isRequired,
-    status: PropTypes.oneOf(["available", "adopted"]).isRequired,
-    provider_user_id: PropTypes.string.isRequired,
-    adopter_user_id: PropTypes.string.isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-    created_at: PropTypes.instanceOf(Date).isRequired,
-    updated_at: PropTypes.instanceOf(Date).isRequired,
-    photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  }).isRequired,
-  adopterId: PropTypes.string.isRequired,
 };

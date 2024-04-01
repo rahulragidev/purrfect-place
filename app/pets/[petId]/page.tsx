@@ -8,7 +8,13 @@ import { AdoptButton } from "@/components/AdoptButton";
 export default async function Page({ params }: PageParams) {
   const petDetails = await fetchPetDetails(params.petId);
   const pet = petDetails[0];
-  const adopterId = await userId();
+
+  let adopterId: string | null = null;
+  try {
+    adopterId = await userId();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
 
   return (
     <div className="min-h-screen py-10">
