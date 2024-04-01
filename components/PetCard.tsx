@@ -51,26 +51,6 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
   );
 });
 
-// PetCard.propTypes = {
-//   pet: PropTypes.shape({
-//     pet_id: PropTypes.string.isRequired,
-//     name: PropTypes.string,
-//     type: PropTypes.string,
-//     breed: PropTypes.string,
-//     age: PropTypes.number,
-//     description: PropTypes.string,
-//     status: PropTypes.oneOf(["available", "adopted", null]),
-//     provider_user_id: PropTypes.string.isRequired,
-//     adopter_user_id: PropTypes.string,
-//     latitude: PropTypes.number,
-//     longitude: PropTypes.number,
-//     created_at: PropTypes.string.isRequired,
-//     updated_at: PropTypes.string,
-//     photos: PropTypes.arrayOf(PropTypes.string),
-//     additional_info: PropTypes.object,
-//   }).isRequired,
-// };
-
 PetCard.propTypes = {
   pet: PropTypes.shape({
     pet_id: PropTypes.string.isRequired,
