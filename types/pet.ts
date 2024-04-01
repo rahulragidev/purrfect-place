@@ -1,16 +1,50 @@
 export interface Pet {
-  pet_id: string; // UUID, automatically generated
-  name: string;
+  pet_id: string;
+  name: string | null;
   type: string | null;
   breed: string | null;
-  age: number | null; // integer
+  age: number | null;
   description: string | null;
-  status: string;
-  provider_user_id: string; // UUID
-  adopter_user_id: string | null; // UUID, can be null
-  latitude: number | null; // numeric(9,6)
-  longitude: number | null; // numeric(9,6)
-  created_at: Date; // timestamp with time zone
-  updated_at: Date | null; // timestamp with time zone
-  photos: string[] // array of text, representing URLs to photos
+  status: string | null;
+  provider_user_id: string;
+  adopter_user_id: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  created_at: Date;
+  updated_at: Date | null;
+  photos: string[] | null;
+  additional_info: object | null;
+}
+
+export interface InsertPetData {
+  name?: string;
+  type?: string;
+  breed?: string;
+  age?: number;
+  description?: string;
+  status?: string;
+  provider_user_id: string;
+  adopter_user_id?: string;
+  latitude?: number;
+  longitude?: number;
+  created_at?: Date;
+  updated_at?: Date;
+  photos?: string[];
+  additional_info?: object;
+}
+
+export interface UpdatePetData {
+  name?: string;
+  type?: string;
+  breed?: string;
+  age?: number;
+  description?: string;
+  status?: string;
+  provider_user_id?: string;
+  adopter_user_id?: string;
+  latitude?: number;
+  longitude?: number;
+  updated_at?: Date;
+  photos?: string[];
+  additional_info?: object;
 }

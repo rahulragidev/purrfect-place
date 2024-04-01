@@ -10,17 +10,16 @@ interface PetCardProps {
 const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
   const statusClasses = {
     available: "text-green-500 bg-green-100",
-    unavailable: "text-gray-800 bg-gray-300",
+    adopted: "text-gray-800 bg-gray-300",
   };
 
-  const { available, unavailable } = statusClasses;
-  const statusStyle =
-    pet.status.toLowerCase() === "available" ? available : unavailable;
+  const { available, adopted } = statusClasses;
+  const statusStyle = pet.status === "available" ? available : adopted;
 
   return (
     <div className="rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:scale-105 border">
       <div className="relative h-64">
-        {pet.photos?.length > 0 ? (
+        {pet.photos && pet.photos.length > 0 ? (
           <Image
             key={pet.pet_id}
             src={pet.photos[0]}
@@ -37,7 +36,7 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
         <span
           className={`absolute top-2 left-2 rounded-full px-3 py-1 text-sm font-bold ${statusStyle}`}
         >
-          {pet.status.toUpperCase()}
+          {pet.status?.toUpperCase()}
         </span>
       </div>
       <div className="p-4">
@@ -52,25 +51,64 @@ const PetCard: React.FC<PetCardProps> = memo(({ pet }) => {
   );
 });
 
+// PetCard.propTypes = {
+//   pet: PropTypes.shape({
+//     pet_id: PropTypes.string.isRequired,
+//     name: PropTypes.string,
+//     type: PropTypes.string,
+//     breed: PropTypes.string,
+//     age: PropTypes.number,
+//     description: PropTypes.string,
+//     status: PropTypes.oneOf(["available", "adopted", null]),
+//     provider_user_id: PropTypes.string.isRequired,
+//     adopter_user_id: PropTypes.string,
+//     latitude: PropTypes.number,
+//     longitude: PropTypes.number,
+//     created_at: PropTypes.string.isRequired,
+//     updated_at: PropTypes.string,
+//     photos: PropTypes.arrayOf(PropTypes.string),
+//     additional_info: PropTypes.object,
+//   }).isRequired,
+// };
+
 PetCard.propTypes = {
   pet: PropTypes.shape({
     pet_id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    breed: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
+    name: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+      .isRequired,
+    type: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+      .isRequired,
+    breed: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+      .isRequired,
+    age: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])])
+      .isRequired,
     description: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.oneOf([null]),
     ]).isRequired,
     status: PropTypes.oneOf(["available", "adopted"]).isRequired,
     provider_user_id: PropTypes.string.isRequired,
-    adopter_user_id: PropTypes.string.isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
+    adopter_user_id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.oneOf([null]),
+    ]).isRequired,
+    latitude: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])])
+      .isRequired,
+    longitude: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])])
+      .isRequired,
     created_at: PropTypes.instanceOf(Date).isRequired,
-    updated_at: PropTypes.instanceOf(Date).isRequired,
-    photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    updated_at: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.oneOf([null]),
+    ]).isRequired,
+    photos: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string.isRequired),
+      PropTypes.oneOf([null]),
+    ]).isRequired,
+    additional_info: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.oneOf([null]),
+    ]).isRequired,
   }).isRequired,
 };
 

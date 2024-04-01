@@ -1,21 +1,21 @@
 export interface Chat {
   id: string;
-  petId: string ;
-  adopterId: string;
-  providerId: string;
-  createdAt: string;
+  pet_id: string | null;
+  adopter_id: string | null;
+  provider_id: string | null;
+  created_at: Date;
 }
 
 export interface InsertChatData {
-  petId?: string;
-  adopterId?: string;
-  providerId?: string;
-  createdAt?: string;
+  pet_id?: string;
+  adopter_id?: string;
+  provider_id?: string;
+  created_at?: Date;
 }
 
 export interface UpdateChatData {
-  petId?: string;
-  adopterId?: string;
-  providerId?: string;
-  createdAt?: string;
+  pet_id?: string;
+  adopter_id?: string;
+  provider_id?: string;
+  created_at?: Date;
 }

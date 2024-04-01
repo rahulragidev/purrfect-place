@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import PetCard from "@/components/PetCard";
@@ -22,8 +23,11 @@ const PetsFilter: React.FC<PetsFilterProps> = ({ pets }) => {
 
     const matchesFilterType =
       !filterType || pet?.type?.toLowerCase() === filterType.toLowerCase();
+
     const matchesFilterStatus =
-      !filterStatus || pet.status.toLowerCase() === filterStatus.toLowerCase();
+      !filterStatus ||
+      (pet.status !== null &&
+        pet.status.toLowerCase() === filterStatus.toLowerCase());
 
     return matchesSearchTerm && matchesFilterType && matchesFilterStatus;
   });

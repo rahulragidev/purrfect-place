@@ -4,6 +4,7 @@ import { supabase } from "@/utils/supabase/client";
 import { Message } from "@/types/messages";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
+import PropTypes from "prop-types";
 
 interface RealtimeMessagesProps {
   chatId: string;
@@ -86,6 +87,13 @@ const RealtimeMessages: React.FC<RealtimeMessagesProps> = ({
       <MessageInput onSend={sendMessage} />
     </div>
   );
+};
+
+RealtimeMessages.propTypes = {
+  userId: PropTypes.string.isRequired,
+  chatId: PropTypes.string.isRequired,
+  receiverId: PropTypes.string,
+  petId: PropTypes.string,
 };
 
 export default RealtimeMessages;

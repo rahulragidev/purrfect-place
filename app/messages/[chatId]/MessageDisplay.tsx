@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase/client";
 import { Message } from "@/types/messages";
+import PropTypes from "prop-types";
 
 const MessageDisplay = ({
   searchParams,
@@ -56,7 +57,7 @@ const MessageDisplay = ({
     <div className="space-y-2">
       {messages.map((message) => (
         <div
-          key={message.id}
+          key={message.message_id}
           className={`border rounded-lg p-2 ${
             message.sender_id === searchParams.user_id
               ? "ml-auto bg-blue-900 text-white w-fit"
@@ -70,6 +71,24 @@ const MessageDisplay = ({
       ))}
     </div>
   );
+};
+
+MessageDisplay.propTypes = {
+  searchParams: PropTypes.shape({
+    chatId: PropTypes.string.isRequired,
+    user_id: PropTypes.string.isRequired,
+  }).isRequired,
+  pastMessages: PropTypes.arrayOf(
+    PropTypes.shape({
+      message_id: PropTypes.string.isRequired,
+      sender_id: PropTypes.string.isRequired,
+      receiver_id: PropTypes.string.isRequired,
+      pet_id: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      created_at: PropTypes.instanceOf(Date).isRequired,
+      chat_id: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default MessageDisplay;

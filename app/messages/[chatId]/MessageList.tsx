@@ -1,5 +1,6 @@
-import { Message } from "@/types/messages";
 import React from "react";
+import PropTypes from "prop-types";
+import { Message } from "@/types/messages";
 
 interface MessageListProps {
   messages: Message[];
@@ -7,7 +8,7 @@ interface MessageListProps {
 }
 
 const MessageList: React.FC<MessageListProps> = ({ messages, userId }) => {
-  const getMessageDate = (timestamp: string) => {
+  const getMessageDate = (timestamp: Date) => {
     const messageDate = new Date(timestamp);
     const today = new Date();
 
@@ -38,7 +39,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, userId }) => {
         const showDateHeader = !prevMessage || currentDate !== prevDate;
 
         return (
-          <div key={message.id}>
+          <div key={message.message_id}>
             {showDateHeader && (
               <div className="text-center text-gray-500 text-sm my-4">
                 {currentDate}
@@ -70,6 +71,22 @@ const MessageList: React.FC<MessageListProps> = ({ messages, userId }) => {
       })}
     </div>
   );
+};
+
+MessageList.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      message_id: PropTypes.string.isRequired,
+      sender_id: PropTypes.string.isRequired,
+      receiver_id: PropTypes.string.isRequired,
+      pet_id: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      created_at: PropTypes.instanceOf(Date).isRequired,
+      chat_id: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+        .isRequired,
+    }).isRequired
+  ).isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default MessageList;
