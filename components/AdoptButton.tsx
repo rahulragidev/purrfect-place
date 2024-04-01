@@ -6,7 +6,6 @@ import { supabase } from "@/utils/supabase/client";
 import { InsertChatData } from "@/types/chats";
 import { Message } from "@/types/messages";
 import { Pet } from "@/types/pet";
-import PropTypes from "prop-types";
 
 interface AdoptButtonProps {
   pet: Pet;
