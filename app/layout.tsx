@@ -3,7 +3,6 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import AuthButton from "@/components/AuthButton";
-import Link from "next/link";
 
 export const metadata = {
   metadataBase: "https://pawmingle.com",
@@ -53,15 +52,6 @@ export default function RootLayout({
         <main className="min-h-screen flex flex-col items-center">
           {children}
         </main>
-        <Link
-          href="/messages"
-          className="transition-colors duration-150 ease-in-out flex items-center p-2 fixed top-1 z-50 right-4 rounded-full shadow-lg"
-          passHref
-        >
-          <span className="ml-2" style={{ fontSize: "2.5em" }}>
-            💬
-          </span>
-        </Link>
       </body>
     </html>
   );
