@@ -1,11 +1,12 @@
 import React from "react";
-import { userId } from "@/app/auth/loader.auth";
 import RealtimeMessages from "./RealtimeMessages";
 import { PageParams } from "@/types/pageParams";
 import { fetchChatById } from "./messages.loader";
+import { fetchCurrentUserData } from "@/utils/users/fetchCurrentUserData";
 
 export default async function ChatPage({ params }: PageParams) {
-  const user_id = await userId();
+  const user = await fetchCurrentUserData();
+  const user_id = user?.id ?? "";
   const chatId = params.chatId;
   const { chat, receiverId, petId } = await fetchChatById(chatId, user_id);
 

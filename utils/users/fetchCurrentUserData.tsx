@@ -1,8 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { User } from "@supabase/supabase-js";
 
-export const userId = async (): Promise<string> => {
+export const fetchCurrentUserData = async (): Promise<User | null> => {
   "use server";
+
   const supabase = createClient();
 
   try {
@@ -16,13 +18,16 @@ export const userId = async (): Promise<string> => {
       }
     }
 
-    if (!data.user || !data.user.id) {
+    const user = data.user;
+
+    if (!user || !user.id) {
       throw new Error("User ID is undefined");
     }
 
-    return data.user.id;
+    return user;
   } catch (error) {
     console.error("Error in userId function:", error);
     redirect("/login");
+    return null;
   }
 };

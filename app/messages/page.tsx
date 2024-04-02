@@ -1,11 +1,12 @@
 import React from "react";
-import { userId } from "@/app/auth/loader.auth";
-import { fetchChats } from "./loader";
 import ChatList from "./ChatList";
+import { fetchCurrentUserData } from "@/utils/users/fetchCurrentUserData";
+import { fetchUserChats } from "@/utils/chats/fetchUserChats";
 
 export default async function MessagesPage() {
-  const user_id = await userId();
-  const chats = await fetchChats(user_id);
+  const user = await fetchCurrentUserData();
+  const user_id = user?.id ?? "";
+  const chats = await fetchUserChats(user_id);
 
   return (
     <div className="p-4">

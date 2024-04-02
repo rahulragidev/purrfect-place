@@ -1,12 +1,13 @@
 import React from "react";
 import PetCard from "@/components/PetCard";
 import { Pet } from "@/types/pet";
-import { getMyPets } from "../pets/pets.loader";
-import { userId } from "../auth/loader.auth";
+import { fetchCurrentUserData } from "@/utils/users/fetchCurrentUserData";
+import { fetchUserPets } from "@/utils/pets/fetchUserPets";
 
 export default async function PetsPage() {
-  const stringUserId = await userId();
-  const pets = await getMyPets(stringUserId);
+  const user = await fetchCurrentUserData();
+  const user_id = user?.id ?? "";
+  const pets = await fetchUserPets(user_id);
 
   return (
     <div>

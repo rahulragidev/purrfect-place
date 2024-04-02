@@ -1,10 +1,9 @@
 import React from "react";
-import { getPets } from "./pets.loader";
+import { fetchAllPetsData } from "@/utils/pets/fetchAllPetsData";
 import PetsFilter from "./PetsFilter";
 
 const Index = async () => {
-  const pets = await getPets();
-
+  const pets = await fetchAllPetsData();
   return <PetsFilter pets={pets} />;
 };
 

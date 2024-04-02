@@ -1,9 +1,9 @@
 import React from "react";
-import { fetchPetDetails } from "../pets.loader";
+import { fetchPetDetails } from "@/utils/pets/fetchPetDetails";
 import PetImageCarousel from "@/components/PetImageCarousel.client";
 import { PageParams } from "@/types/pageParams";
-import { userId } from "@/app/auth/loader.auth";
 import { AdoptButton } from "@/components/AdoptButton";
+import { fetchCurrentUserData } from "@/utils/users/fetchCurrentUserData";
 
 export default async function Page({ params }: PageParams) {
   const petDetails = await fetchPetDetails(params.petId);
@@ -11,7 +11,8 @@ export default async function Page({ params }: PageParams) {
 
   let adopterId: string | null = null;
   try {
-    adopterId = await userId();
+    const user = await fetchCurrentUserData();
+    adopterId = user?.id ?? "";
   } catch (error) {
     console.error("Error fetching user:", error);
   }

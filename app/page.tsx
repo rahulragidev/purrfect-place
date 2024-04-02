@@ -1,10 +1,10 @@
 import Link from "next/link";
 import PetCard from "@/components/PetCard";
 import React from "react";
-import { getPets } from "./pets/pets.loader";
+import { fetchAllPetsData } from "@/utils/pets/fetchAllPetsData";
 
 const IndexPage = async () => {
-  const pets = await getPets();
+  const pets = await fetchAllPetsData();
 
   return (
     <div className="min-h-screen">

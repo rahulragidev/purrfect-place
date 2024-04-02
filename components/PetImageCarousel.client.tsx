@@ -3,24 +3,31 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 interface PetImageCarouselProps {
-  photos: string[];
+  photos: string[] | null;
 }
 
 const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
+    if (photos) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
+    }
   };
 
   const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + photos.length) % photos.length
-    );
+    if (photos) {
+      setCurrentIndex(
+        (prevIndex) => (prevIndex - 1 + photos.length) % photos.length
+      );
+    }
   };
+
+  if (!photos || photos.length === 0) {
+    return "No Image Available";
+  }
   return (
     <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
-      {photos.map((photo, index) => (
+      {photos?.map((photo, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
@@ -36,7 +43,7 @@ const PetImageCarousel: React.FC<PetImageCarouselProps> = ({ photos }) => {
           />
         </div>
       ))}
-      {photos.length > 1 && (
+      {photos?.length > 1 && (
         <>
           <button
             onClick={handlePrev}
