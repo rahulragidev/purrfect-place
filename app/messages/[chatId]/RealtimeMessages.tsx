@@ -61,7 +61,7 @@ const RealtimeMessages: React.FC<RealtimeMessagesProps> = ({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [chatId]);
+  }, [messages]);
 
   const sendMessage = async (content: string) => {
     if (content.trim() !== "" && receiverId) {
