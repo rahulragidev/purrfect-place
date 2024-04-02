@@ -55,7 +55,7 @@ export default function RootLayout({
         </main>
         <Link
           href="/messages"
-          className="transition-colors duration-150 ease-in-out flex items-center p-2 fixed bottom-4 right-4 rounded-full shadow-lg"
+          className="transition-colors duration-150 ease-in-out flex items-center p-2 fixed top-1 z-50 right-4 rounded-full shadow-lg"
           passHref
         >
           <span className="ml-2" style={{ fontSize: "2.5em" }}>
