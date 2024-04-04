@@ -88,7 +88,7 @@ export default function AddPet({
             Fill in the details below to add a pet for adoption.
           </p>
         </div>
-        <form className="mt-8 space-y-6" action={addPet}>
+        <form className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="">
               <label htmlFor="name" className="sr-only">
@@ -199,7 +199,10 @@ export default function AddPet({
           </div>
 
           <div>
-            <SubmitButton className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <SubmitButton
+              formAction={addPet}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
               Add Pet
             </SubmitButton>
           </div>
