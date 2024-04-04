@@ -12,18 +12,17 @@ interface MessageListProps {
 const MessageList: React.FC<MessageListProps> = ({ messages, userId }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages.length]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, []);
-
   const getMessageDate = (timestamp: Date) => {
     const messageDate = new Date(timestamp);
     const today = new Date();
-
     if (isSameDay(messageDate, today)) {
       return "Today";
     } else {
