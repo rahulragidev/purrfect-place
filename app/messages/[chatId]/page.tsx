@@ -1,8 +1,8 @@
 import React from "react";
 import RealtimeMessages from "./RealtimeMessages";
 import { PageParams } from "@/types/pageParams";
-import { fetchChatById } from "./messages.loader";
 import { fetchCurrentUserData } from "@/utils/users/fetchCurrentUserData";
+import { fetchChatById } from "@/utils/chats/fetchUserChats";
 
 export default async function ChatPage({ params }: PageParams) {
   const user = await fetchCurrentUserData();
