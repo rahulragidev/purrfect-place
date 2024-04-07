@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+import MyPets from "./MyPets";
 import MessagesButton from "./MessageButton";
 
 export default async function AuthButton() {
@@ -20,6 +21,7 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex mx-auto space-x-2">
+      <MyPets />
       <MessagesButton />
       <form action={signOut}>
         <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
